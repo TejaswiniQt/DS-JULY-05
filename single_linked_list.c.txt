@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node
+{
+    int data;
+    struct node *next;
+}sll;
+
+void insert_at_last(sll **head);
+void insert_at_first(sll **head);
+void delete_at_last(sll **head);
+void delete_at_first(sll **head);
+void display_list(sll **head);
+
+int main()
+{
+    int option;
+    sll *head = NULL;
+    while(1)
+    {
+        printf("1.Insert at last\n2.Insert_at_first\n3.delete_at_last\n4.delete_at_first\n5.display linked list\n6.Exit\nEnter option:\n");
+        scanf("%d",&option);
+        switch(option)
+        {
+            case 1:insert_at_last(&head);
+            break;
+            case 2:insert_at_first(&head);
+            break;
+            case 3:delete_at_last(&head);
+            break;
+            case 4:delete_at_first(&head);
+            break;
+            case 5:display_list(&head);
+            break;
+            case 6:exit(1);
+            break;
+        }
+    }
+
+    return 0;
+}
+
+void insert_at_last(sll **head)
+{
+    sll *newnode, *temp;
+    newnode = (sll*)malloc(sizeof(sll));
+    if(newnode == NULL)
+    printf("Memory not allocated\n");
+    else
+    {
+        printf("Enter data: ");
+        scanf("%d",&newnode->data);
+        newnode->next = NULL;
+        if(*head == NULL)
+        {
+            *head = newnode;
+        }
+        else
+        {
+            temp = *head;
+            while(temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            temp->next = newnode;
+            temp = newnode;
+        }
+        
+    }
+}
+
+void insert_at_first(sll **head)
+{
+    sll *newnode,*temp;
+    newnode = (sll *)malloc(sizeof(sll));
+    if(newnode == NULL)
+    printf("Memory is not allocated\n");
+    else
+    {
+        printf("Enter data: ");
+        scanf("%d",&newnode->data);
+        if(*head == NULL)
+        {
+            *head = newnode;
+        }
+        else
+        {
+            temp = *head;
+            *head = newnode;
+            newnode->next = temp;
+        }
+    }
+}
+
+void delete_at_last(sll **head)
+{
+    sll *temp,*prev;
+    if(*head == NULL)
+    printf("List is empty\n");
+    else
+    {
+        temp = *head;
+        while(temp->next != NULL)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+        if((*head)->next == NULL)
+        *head = NULL;
+        else
+        {
+        prev->next = NULL;
+        free(temp);
+        }
+    }
+}
+
+void delete_at_first(sll **head)
+{
+    sll *temp;
+    if(*head == NULL)
+    printf("List is empty\n");
+    else
+    {
+        if((*head)->next == NULL)
+        {
+        temp = *head;
+        *head = NULL;
+        free(temp);
+        }
+        else
+        {
+        temp = *head;
+        *head = temp->next;
+        free(temp);
+        }
+    }
+}
+
+void display_list(sll **head)
+{
+    sll *temp = *head;
+    if(*head == NULL)
+    printf("List is empty\n");
+    else
+    {
+    printf("Elements in linked list are: \n");
+    while(temp != NULL)
+    {
+        printf("%d ",temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+    }
+}
